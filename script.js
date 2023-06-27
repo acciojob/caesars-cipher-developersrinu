@@ -1,15 +1,23 @@
+function rot13(encodedString) {
+  const decodedChars = [];
 
-function rot13(encodedStr) {
-  let decodedArr = [];
+  for (let i = 0; i < encodedString.length; i++) {
+    const char = encodedString[i];
+    const charCode = encodedString.charCodeAt(i);
 
-  for (let char of encodedStr) {
-    let decodedChar = lookup[char] || char;
-    decodedArr.push(decodedChar);
+    if (isUppercaseLetter(char)) {
+      const decodedCharCode = ((charCode - 65 + 13) % 26) + 65;
+      const decodedChar = String.fromCharCode(decodedCharCode);
+      decodedChars.push(decodedChar);
+    } else {
+      decodedChars.push(char);
+    }
   }
 
-  return decodedArr.join('');
+  return decodedChars.join("");
 }
 
-console.log(rot13("SERR YBIR? NPPVBWBO"));  // Output: "FREE LOVE? ACCOUNTING"
+function isUppercaseLetter(char) {
+  return /^[A-Z]$/.test(char);
+}
 
-module.exports = rot13;
